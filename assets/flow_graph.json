@@ -1,0 +1,76 @@
+{
+  "nodes": {
+    "opening": {
+      "label": "开场白",
+      "transitions": {
+        "buy_interest": "product_pitch",
+        "chitchat": "needs_discovery",
+        "unclear": "needs_discovery",
+        "default": "needs_discovery"
+      }
+    },
+    "needs_discovery": {
+      "label": "需求挖掘",
+      "transitions": {
+        "buy_interest": "product_pitch",
+        "feature_ask": "product_pitch",
+        "objection_need": "needs_discovery",
+        "default": "product_pitch"
+      }
+    },
+    "product_pitch": {
+      "label": "产品介绍",
+      "transitions": {
+        "buy_interest": "trial_close",
+        "price_inquiry": "product_pitch",
+        "objection_price": "objection_handling",
+        "objection_need": "objection_handling",
+        "compare": "objection_handling",
+        "default": "product_pitch"
+      }
+    },
+    "objection_handling": {
+      "label": "异议处理",
+      "transitions": {
+        "buy_interest": "trial_close",
+        "objection_price": "objection_handling",
+        "objection_need": "objection_handling",
+        "default": "product_pitch"
+      }
+    },
+    "trial_close": {
+      "label": "试探成交",
+      "transitions": {
+        "buy_interest": "closing",
+        "objection_price": "objection_handling",
+        "objection_timing": "follow_up",
+        "default": "trial_close"
+      }
+    },
+    "closing": {
+      "label": "成交确认",
+      "transitions": {
+        "default": "closing"
+      }
+    },
+    "graceful_exit": {
+      "label": "礼貌退出",
+      "terminal": true
+    },
+    "follow_up": {
+      "label": "约定回访",
+      "terminal": true
+    }
+  },
+  "global_overrides": {
+    "hard_reject": "graceful_exit",
+    "hang_up": "graceful_exit",
+    "transfer_human": "graceful_exit",
+    "callback_request": "follow_up"
+  },
+  "guardrails": {
+    "max_turns": 15,
+    "max_objections_without_signal": 3,
+    "hostile_sentiment_action": "graceful_exit"
+  }
+}
